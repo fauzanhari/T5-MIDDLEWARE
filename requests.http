@@ -1,0 +1,102 @@
+@baseUrl = http://localhost:3000
+@apiKey = perpus_unram_keren
+
+### 1. GET seluruh koleksi buku (200)
+GET {{baseUrl}}/buku
+
+### 2. GET buku kategori sains (200)
+GET {{baseUrl}}/buku?kategori=sains
+
+### 3. GET detail buku yang tersedia (200)
+GET {{baseUrl}}/buku/1
+
+### 4. GET detail buku yang tidak tersedia (404 NOT_FOUND)
+GET {{baseUrl}}/buku/9999
+
+### 5. URL tidak dikenal (404 ROUTE_NOT_FOUND)
+GET {{baseUrl}}/koleksi-rahasia
+
+### 6. POST tanpa API key (401)
+POST {{baseUrl}}/buku
+Content-Type: application/json
+
+{
+  "judul": "Buku Tanpa Kunci",
+  "penulis": "Penulis Uji",
+  "tahun": 2024,
+  "stok": 2,
+  "kategori": "novel"
+}
+
+### 7. POST dengan data tidak valid (422)
+POST {{baseUrl}}/buku
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+  "judul": "A",
+  "penulis": "B",
+  "tahun": 3000,
+  "stok": 150,
+  "kategori": "komik"
+}
+
+### 8. POST judul duplikat (409 JUDUL_DUPLIKAT)
+POST {{baseUrl}}/buku
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+  "judul": "jejak pulau seribu",
+  "penulis": "Penulis Baru",
+  "tahun": 2025,
+  "stok": 1,
+  "kategori": "novel"
+}
+
+### 9. POST buku baru (201)
+POST {{baseUrl}}/buku
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+  "judul": "Teknologi Pangan Lokal",
+  "penulis": "Sinta Rahmawati",
+  "tahun": 2025,
+  "stok": 7,
+  "kategori": "sains"
+}
+
+### 10. DELETE buku yang tersedia (204)
+DELETE {{baseUrl}}/buku/7
+x-api-key: {{apiKey}}
+
+### 11. DELETE buku yang tidak tersedia (404 NOT_FOUND)
+DELETE {{baseUrl}}/buku/9999
+x-api-key: {{apiKey}}
+
+### 12. PUT buku (BONUS, 200)
+PUT {{baseUrl}}/buku/2
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+  "judul": "Ekologi dan Lingkungan Nusantara",
+  "penulis": "Rizal Mahendra",
+  "tahun": 2024,
+  "stok": 10,
+  "kategori": "sains"
+}
+
+### 13. PUT id yang tidak ditemukan (BONUS, 404)
+PUT {{baseUrl}}/buku/9999
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+  "judul": "Buku Percobaan",
+  "penulis": "Penulis Contoh",
+  "tahun": 2024,
+  "stok": 1,
+  "kategori": "novel"
+}
